@@ -1,7 +1,6 @@
 using CleverPointApi.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.IdentityModel.Tokens;
 
 namespace CleverPointApi.Controllers
 {

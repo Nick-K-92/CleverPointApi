@@ -1,7 +1,6 @@
+using CleverPointApi.Models;
 using Microsoft.AspNetCore.Http.Features;
 using Microsoft.EntityFrameworkCore;
-using CleverPointApi;
-using CleverPointApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -18,7 +17,7 @@ builder.Services.AddCors(options =>
 );
 
 //*********************** Register DbContext and provide ConnectionString .***********************
-var connection = builder.Configuration.GetConnectionString("Database");
+string? connection = builder.Configuration.GetConnectionString("Database");
 builder.Services.AddDbContext<CleverPointDbContext>(db => db.UseSqlServer(connection), ServiceLifetime.Transient);
 //*********************** Register DbContext end.***********************
 
