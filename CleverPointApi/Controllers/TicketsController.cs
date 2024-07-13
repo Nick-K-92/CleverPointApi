@@ -1,6 +1,7 @@
 using CleverPointApi.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 
 namespace CleverPointApi.Controllers
 {
@@ -81,7 +82,7 @@ namespace CleverPointApi.Controllers
                 }
 
                 if (ticket.CreatorUserId == 0)
-                    throw new Exception("The creator of the Ticket cannot be empty");
+                    throw new Exception("The creator user of the Ticket cannot be empty");
 
                 _context.Tickets.Add(ticket);
                 await _context.SaveChangesAsync();
@@ -135,7 +136,7 @@ namespace CleverPointApi.Controllers
                     .Include(t => t.CreatorUser)
                     .Include(t => t.AssigneeUser);
 
-                if (ticketFilters.SearchQuery != null)
+                if (!String.IsNullOrEmpty(ticketFilters.SearchQuery))
                 {
                     string searchQuery = ticketFilters.SearchQuery.Trim();
 
@@ -143,8 +144,8 @@ namespace CleverPointApi.Controllers
                         await tickets.Where(t =>
                             t.Title.Contains(searchQuery) ||
                             (t.Description != null && t.Description.Contains(searchQuery)) ||
-                            t.AssigneeUser.Username.Contains(searchQuery) ||
-                            t.CreatorUser.Username.Contains(searchQuery) ||
+                            (t.AssigneeUser != null && t.AssigneeUser.Username.Contains(searchQuery)) ||
+                            (t.CreatorUser != null && t.CreatorUser.Username.Contains(searchQuery)) ||
                             t.ShipmentID.Contains(searchQuery) ||
                             t.ShipmentTrackingNumber.Contains(searchQuery)
                         )
