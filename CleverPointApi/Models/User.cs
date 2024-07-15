@@ -9,6 +9,7 @@ namespace CleverPointApi.Models
         public User()
         {
         }
+
         [Key]
         public int Id { get; set; }
         [Required]

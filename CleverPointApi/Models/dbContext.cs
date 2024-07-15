@@ -10,7 +10,13 @@ namespace CleverPointApi.Models
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<Ticket>()
+                .HasIndex(t => t.ShipmentID)
+                .IsUnique();
 
+            modelBuilder.Entity<User>()
+               .HasIndex(t => t.Username)
+               .IsUnique();
         }
 
         public DbSet<Ticket> Tickets { get; set; }

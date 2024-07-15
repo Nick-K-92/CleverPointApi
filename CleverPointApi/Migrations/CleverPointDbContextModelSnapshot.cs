@@ -73,7 +73,7 @@ namespace CleverPointApi.Migrations
 
                     b.Property<string>("ShipmentID")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("ShipmentTrackingNumber")
                         .IsRequired()
@@ -94,6 +94,9 @@ namespace CleverPointApi.Migrations
                     b.HasIndex("AssigneeUserId");
 
                     b.HasIndex("CreatorUserId");
+
+                    b.HasIndex("ShipmentID")
+                        .IsUnique();
 
                     b.HasIndex("StatusId");
 
@@ -118,9 +121,12 @@ namespace CleverPointApi.Migrations
 
                     b.Property<string>("Username")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("Username")
+                        .IsUnique();
 
                     b.ToTable("Users");
                 });

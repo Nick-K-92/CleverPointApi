@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CleverPointApi.Migrations
 {
     [DbContext(typeof(CleverPointDbContext))]
-    [Migration("20240713150640_create-database")]
+    [Migration("20240715153742_create-database")]
     partial class createdatabase
     {
         /// <inheritdoc />
@@ -76,7 +76,7 @@ namespace CleverPointApi.Migrations
 
                     b.Property<string>("ShipmentID")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("ShipmentTrackingNumber")
                         .IsRequired()
@@ -97,6 +97,9 @@ namespace CleverPointApi.Migrations
                     b.HasIndex("AssigneeUserId");
 
                     b.HasIndex("CreatorUserId");
+
+                    b.HasIndex("ShipmentID")
+                        .IsUnique();
 
                     b.HasIndex("StatusId");
 
@@ -121,9 +124,12 @@ namespace CleverPointApi.Migrations
 
                     b.Property<string>("Username")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("Username")
+                        .IsUnique();
 
                     b.ToTable("Users");
                 });

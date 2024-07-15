@@ -53,6 +53,10 @@ namespace CleverPointApi.Controllers
 
             try
             {
+                var sameShipmentTicket = _context.Tickets.Any(t => t.Id != ticket.Id && t.ShipmentID == ticket.ShipmentID);
+                if (sameShipmentTicket)
+                    throw new Exception("There is already a ticket with this ShipmentId");
+
                 _context.Entry(ticket).State = EntityState.Modified;
 
                 await _context.SaveChangesAsync();
@@ -74,14 +78,18 @@ namespace CleverPointApi.Controllers
 
             try
             {
+                var sameShipmentTicket = _context.Tickets.Any(t => t.ShipmentID == ticket.ShipmentID);
+                if (sameShipmentTicket)
+                    throw new Exception("There is already a ticket with this ShipmentId");
+
+                if (ticket.CreatorUserId == 0)
+                    throw new Exception("The creator user of the Ticket cannot be empty");
+
                 if (ticket.StatusId == 0)
                 {
                     Status status = _context.Status.AsNoTracking().Single(s => s.IsFirstStatusOfTicket);
                     ticket.StatusId = status.Id;
                 }
-
-                if (ticket.CreatorUserId == 0)
-                    throw new Exception("The creator user of the Ticket cannot be empty");
 
                 _context.Tickets.Add(ticket);
                 await _context.SaveChangesAsync();

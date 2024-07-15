@@ -32,7 +32,7 @@ namespace CleverPointApi.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Username = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Username = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Lastname = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
@@ -49,7 +49,7 @@ namespace CleverPointApi.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Title = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    ShipmentID = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ShipmentID = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     ShipmentTrackingNumber = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     EstimatedStoryPoints = table.Column<double>(type: "float", nullable: false),
                     SpentStoryPoints = table.Column<double>(type: "float", nullable: true),
@@ -92,9 +92,21 @@ namespace CleverPointApi.Migrations
                 column: "CreatorUserId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Tickets_ShipmentID",
+                table: "Tickets",
+                column: "ShipmentID",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Tickets_StatusId",
                 table: "Tickets",
                 column: "StatusId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Users_Username",
+                table: "Users",
+                column: "Username",
+                unique: true);
         }
 
         /// <inheritdoc />
